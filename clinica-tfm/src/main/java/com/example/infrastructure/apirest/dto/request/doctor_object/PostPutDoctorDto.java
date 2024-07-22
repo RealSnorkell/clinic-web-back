@@ -18,12 +18,13 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostPutDoctorDto extends PersonalInformationDto {
+public class PostPutDoctorDto {
 	@NotNull
 	String id;
 	String licenseNum;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	LocalDate mIRDate;
+	PersonalInformationDto personalInformationDto;
 	List<String> specializations;
 	List<String> idDoctorAppointments;
 }

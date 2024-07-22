@@ -14,11 +14,13 @@ import jakarta.validation.Valid;
 @Repository
 public interface AppointmentRepository extends MongoRepository<AppointmentEntity, String> {
 
-	Optional<AppointmentEntity> findByIdAndDeleted(@Valid String id, boolean deleted);
+	Optional<AppointmentEntity> findByAppointmentIdAndDeleted(@Valid String id, boolean deleted);
 
 	Page<AppointmentEntity> findByDeleted(@Valid Pageable pageable, boolean deleted);
 
-	Page<AppointmentEntity> findByDoctorAndDeleted(String id, boolean deleted, Pageable pageable);
+	Page<AppointmentEntity> findByDoctorPersonalInformationDocumentAndDeleted(String document, boolean deleted,
+			Pageable pageable);
 
-	Page<AppointmentEntity> findByPatientAndDeleted(String id, boolean deleted, Pageable pageable);
+	Page<AppointmentEntity> findByPatientPersonalInformationDocumentAndDeleted(String document, boolean deleted,
+			Pageable pageable);
 }

@@ -13,9 +13,10 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class Patient extends PersonalInformation {
+public class Patient {
 	String id;
 	String sSNumber;
+	PersonalInformation personalInformation;
 	double height;
 	double weight;
 	List<String> idPatientAppointments;

@@ -18,10 +18,7 @@ spring:
         auto-offset-reset: earliest
         group-id: clinic-group-id
         group-id-test: test-clinic-group-id
-    timeout: 6000
-  
-  #cache.type: NONE
-      
+    timeout: 6000     
   data:
     mongodb:
       host: localhost

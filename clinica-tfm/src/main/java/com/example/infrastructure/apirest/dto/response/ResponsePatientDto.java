@@ -16,10 +16,11 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponsePatientDto extends PersonalInformationDto {
+public class ResponsePatientDto {
 	String id;
 	String sSNumber;
-	List<Appointment> patientAppointments;
+	PersonalInformationDto personalInformationDto;
 	double height;
 	double weight;
+	List<Appointment> patientAppointments;
 }

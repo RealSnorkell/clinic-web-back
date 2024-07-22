@@ -17,10 +17,11 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class PatientEntity extends PersonalInformationEntity {
+public class PatientEntity {
 	@Id
 	String id;
 	String sSNumber;
+	PersonalInformationEntity personalInformationEntity;
 	double height;
 	double weight;
 	List<String> idPatientAppointments;

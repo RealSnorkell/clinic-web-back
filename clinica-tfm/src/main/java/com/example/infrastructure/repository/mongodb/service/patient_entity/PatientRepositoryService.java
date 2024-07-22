@@ -65,7 +65,8 @@ public class PatientRepositoryService implements PatientRepositoryOutputPort {
 	public Optional<Patient> getPatientByDocument(@Valid String document) {
 		log.debug("Getting patient with document");
 
-		Optional<PatientEntity> opt = patientRepository.findByDocumentAndEliminate(document, false);
+		Optional<PatientEntity> opt = patientRepository.findByPersonalInformationEntityDocumentAndDeleted(document,
+				false);
 
 		return patientToPatientEntityMapper.fromOutputToInput(opt);
 	}

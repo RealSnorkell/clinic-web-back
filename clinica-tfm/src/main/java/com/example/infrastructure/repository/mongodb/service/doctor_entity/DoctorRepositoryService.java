@@ -64,7 +64,8 @@ public class DoctorRepositoryService implements DoctorRepositoryOutputPort {
 	public Optional<Doctor> getDoctorByDocument(@Valid String document) {
 		log.debug("Getting doctor with document");
 
-		Optional<DoctorEntity> opt = doctorRepository.findByDocumentAndDeleted(document, false);
+		Optional<DoctorEntity> opt = doctorRepository.findByPersonalInformationEntityDocumentAndDeleted(document,
+				false);
 
 		return doctorToDoctorEntityMapper.fromOutputToInput(opt);
 	}

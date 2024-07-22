@@ -66,7 +66,7 @@ public class AppointmentsRepositoryService implements AppointmentRepositoryOutpu
 	public Optional<Appointment> getAppointment(@Valid String id) {
 		log.debug("Getting an appointment");
 
-		Optional<AppointmentEntity> opt = appointmentRepository.findByIdAndDeleted(id, false);
+		Optional<AppointmentEntity> opt = appointmentRepository.findByAppointmentIdAndDeleted(id, false);
 
 		return appointmentToAppointmentEntityMapper.fromOutputToInput(opt);
 	}
@@ -84,7 +84,8 @@ public class AppointmentsRepositoryService implements AppointmentRepositoryOutpu
 	public Page<Appointment> getAppointmentsByDoctorDocument(@Valid String document, Pageable pageable) {
 		log.debug("Getting appointments for doctor with document");
 
-		Page<AppointmentEntity> pageEntity = appointmentRepository.findByDoctorAndDeleted(document, false, pageable);
+		Page<AppointmentEntity> pageEntity = appointmentRepository
+				.findByDoctorPersonalInformationDocumentAndDeleted(document, false, pageable);
 
 		return appointmentToAppointmentEntityMapper.fromOutputToInput(pageEntity);
 	}
@@ -102,7 +103,8 @@ public class AppointmentsRepositoryService implements AppointmentRepositoryOutpu
 	public Page<Appointment> getAppointmentsByPatientDocument(@Valid String document, Pageable pageable) {
 		log.debug("Getting appointments for patient with document");
 
-		Page<AppointmentEntity> pageEntity = appointmentRepository.findByPatientAndDeleted(document, false, pageable);
+		Page<AppointmentEntity> pageEntity = appointmentRepository
+				.findByPatientPersonalInformationDocumentAndDeleted(document, false, pageable);
 
 		return appointmentToAppointmentEntityMapper.fromOutputToInput(pageEntity);
 	}
@@ -147,7 +149,7 @@ public class AppointmentsRepositoryService implements AppointmentRepositoryOutpu
 	public void deleteAppointment(@Valid String idAppointment) {
 		log.debug("Deleting an appointment");
 
-		Optional<AppointmentEntity> opt = appointmentRepository.findByIdAndDeleted(idAppointment, false);
+		Optional<AppointmentEntity> opt = appointmentRepository.findByAppointmentIdAndDeleted(idAppointment, false);
 
 		if (!opt.isPresent()) {
 			return;

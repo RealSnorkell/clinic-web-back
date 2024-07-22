@@ -20,12 +20,13 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class DoctorEntity extends PersonalInformationEntity {
+public class DoctorEntity {
 	@Id
 	String id;
 	String licenseNum;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	LocalDate mIRDate;
+	PersonalInformationEntity personalInformationEntity;
 	List<String> specializations;
 	List<String> idDoctorAppointments;
 	boolean deleted;

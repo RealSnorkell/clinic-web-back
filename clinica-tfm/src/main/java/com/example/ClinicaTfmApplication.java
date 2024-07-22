@@ -8,9 +8,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableCaching
 @SpringBootApplication
 @EnableMongoRepositories
-public class ArqHexagonalAnemicApplication {
+public class ClinicaTfmApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ArqHexagonalAnemicApplication.class, args);
+		SpringApplication.run(ClinicaTfmApplication.class, args);
 	}
 }

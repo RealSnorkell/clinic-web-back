@@ -92,7 +92,8 @@ public class AppointmentService implements AppointmentServiceInputPort {
 		if (!opt.isPresent()) {
 			throw new ClinicLogicException(Errors.DOCTOR_NOT_FOUND);
 		}
-		return appointmentRepositoryOutputPort.getAppointmentsByDoctorDocument(opt.get().getIdTypeContent(), pageable);
+		return appointmentRepositoryOutputPort
+				.getAppointmentsByDoctorDocument(opt.get().getPersonalInformation().getDocument(), pageable);
 	}
 
 	/**
@@ -114,7 +115,8 @@ public class AppointmentService implements AppointmentServiceInputPort {
 		if (!opt.isPresent()) {
 			throw new ClinicLogicException(Errors.PATIENT_NOT_FOUND);
 		}
-		return appointmentRepositoryOutputPort.getAppointmentsByPatientDocument(opt.get().getIdTypeContent(), pageable);
+		return appointmentRepositoryOutputPort
+				.getAppointmentsByPatientDocument(opt.get().getPersonalInformation().getDocument(), pageable);
 	}
 
 	/**
@@ -148,6 +150,7 @@ public class AppointmentService implements AppointmentServiceInputPort {
 		String savedAppointment = null;
 
 		Optional<Patient> patOpt = patientRepositoryOutputPort.getPatient(appointment.getPatient().getId());
+
 		if (patOpt.isPresent()) {
 			Patient patient = patOpt.get();
 

@@ -16,5 +16,5 @@ public interface PatientRepository extends MongoRepository<PatientEntity, String
 
 	Optional<PatientEntity> findByIdAndDeleted(String id, boolean deleted);
 
-	Optional<PatientEntity> findByDocumentAndEliminate(String document, boolean deleted);
+	Optional<PatientEntity> findByPersonalInformationEntityDocumentAndDeleted(String document, boolean deleted);
 }
