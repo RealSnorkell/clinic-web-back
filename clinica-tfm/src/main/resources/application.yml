@@ -24,11 +24,14 @@ spring:
       host: localhost
       port: 27017
       database: clinic-ddbb
+  cache.type: NONE
+  
 de:
   flapdoodle:
     mongodb:
       embedded:
         version: 7.0.0
+        
 logging:
   level:
     root: DEBUG

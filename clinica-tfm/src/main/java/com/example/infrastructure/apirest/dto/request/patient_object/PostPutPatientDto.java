@@ -16,8 +16,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostPutPatientDto {
-	String id;
-	String sSNumber;
+	String socialSecurityNumber;
 	PersonalInformationDto personalInformationDto;
 	double height;
 	double weight;

@@ -15,6 +15,7 @@ import com.example.infrastructure.repository.mongodb.entity.PatientEntity;
 import com.example.infrastructure.repository.mongodb.mapper.PatientToPatientEntityMapper;
 
 import jakarta.validation.Valid;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -46,7 +47,7 @@ public class PatientRepositoryService implements PatientRepositoryOutputPort {
 	 */
 	@Override
 	@Cacheable(value = "patients", key = "#id")
-	public Optional<Patient> getPatient(@Valid String id) {
+	public Optional<Patient> getPatient(String id) {
 		log.debug("Getting patient");
 
 		Optional<PatientEntity> opt = patientRepository.findByIdAndDeleted(id, false);
@@ -109,9 +110,10 @@ public class PatientRepositoryService implements PatientRepositoryOutputPort {
 	 * 
 	 * @param inputPatient The patient with updated information.
 	 */
+	@SneakyThrows
 	@Override
 	@CacheEvict(value = "patients", allEntries = true)
-	public void modifyPatient(@Valid Patient inputPatient) {
+	public void modifyPatient(Patient inputPatient) {
 		log.debug("Modifying a patient");
 
 		patientRepository.save(patientToPatientEntityMapper.fromInputToOutput(inputPatient));

@@ -20,7 +20,7 @@ import lombok.extern.jackson.Jacksonized;
 public class PatientEntity {
 	@Id
 	String id;
-	String sSNumber;
+	String socialSecurityNumber;
 	PersonalInformationEntity personalInformationEntity;
 	double height;
 	double weight;

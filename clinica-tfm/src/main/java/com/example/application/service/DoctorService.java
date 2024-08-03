@@ -119,7 +119,7 @@ public class DoctorService implements DoctorServiceInputPort {
 
 		clinicPatchMapper.updateDoctor(opt.get(), inputDoc);
 		doctorRepositoryOutputPort.modifyDoctor(opt.get());
-		clinicProducerOutputPort.modifiedClinicEvent(opt.get());
+		// clinicProducerOutputPort.modifiedClinicEvent(opt.get()); //Kafka not working.
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class DoctorService implements DoctorServiceInputPort {
 		}
 
 		doctorRepositoryOutputPort.modifyDoctor(inputDoc);
-		clinicProducerOutputPort.modifiedClinicEvent(inputDoc);
+		// clinicProducerOutputPort.modifiedClinicEvent(inputDoc); //Kafka not working.
 	}
 
 	/**
@@ -160,6 +160,6 @@ public class DoctorService implements DoctorServiceInputPort {
 		}
 
 		doctorRepositoryOutputPort.deleteDoctor(idDoc);
-		clinicProducerOutputPort.deletedClinicEvent(opt.get());
+		// clinicProducerOutputPort.deletedClinicEvent(opt.get()); //Kafka not working.
 	}
 }

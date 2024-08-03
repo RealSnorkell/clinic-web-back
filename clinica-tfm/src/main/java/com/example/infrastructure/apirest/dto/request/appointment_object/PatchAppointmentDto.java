@@ -18,7 +18,6 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatchAppointmentDto {
-	String appointmentId;
 	Doctor doctor;
 	Patient patient;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")

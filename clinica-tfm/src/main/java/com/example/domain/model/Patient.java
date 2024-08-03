@@ -15,7 +15,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 public class Patient {
 	String id;
-	String sSNumber;
+	String socialSecurityNumber;
 	PersonalInformation personalInformation;
 	double height;
 	double weight;

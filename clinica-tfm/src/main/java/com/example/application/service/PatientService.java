@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.application.port.input.PatientServiceInputPort;
-import com.example.application.port.output.ClinicProducerOutputPort;
 import com.example.application.port.output.PatientRepositoryOutputPort;
 import com.example.application.util.ClinicLogicException;
 import com.example.application.util.Errors;
@@ -37,8 +36,8 @@ public class PatientService implements PatientServiceInputPort {
 	@Autowired
 	PatientRepositoryOutputPort patientRepositoryOutputPort;
 
-	@Autowired
-	ClinicProducerOutputPort clinicProducerOutputPort;
+//	@Autowired
+//	ClinicProducerOutputPort clinicProducerOutputPort;
 
 	@Autowired
 	ClinicPatchMapper clinicPatchMapper;
@@ -100,7 +99,8 @@ public class PatientService implements PatientServiceInputPort {
 
 		inputPatient.setId(newId);
 
-		clinicProducerOutputPort.createdClinicEvent(inputPatient);
+		// clinicProducerOutputPort.createdClinicEvent(inputPatient); //Kafka not
+		// working.
 
 		return newId;
 	}
@@ -113,7 +113,7 @@ public class PatientService implements PatientServiceInputPort {
 	 */
 	@Override
 	@Transactional
-	public void partialModificationPatient(@Valid Patient inputPatient) throws ClinicLogicException {
+	public void partialModificationPatient(Patient inputPatient) throws ClinicLogicException {
 		log.debug("Modifying partially a patient");
 
 		Optional<Patient> opt = patientRepositoryOutputPort.getPatient(inputPatient.getId());
@@ -124,7 +124,7 @@ public class PatientService implements PatientServiceInputPort {
 
 		clinicPatchMapper.updatePatient(opt.get(), inputPatient);
 		patientRepositoryOutputPort.modifyPatient(opt.get());
-		clinicProducerOutputPort.modifiedClinicEvent(opt.get());
+		// clinicProducerOutputPort.modifiedClinicEvent(opt.get()); //Kafka not working.
 	}
 
 	/**
@@ -145,7 +145,8 @@ public class PatientService implements PatientServiceInputPort {
 		}
 
 		patientRepositoryOutputPort.modifyPatient(inputPatient);
-		clinicProducerOutputPort.modifiedClinicEvent(inputPatient);
+		// clinicProducerOutputPort.modifiedClinicEvent(inputPatient); //Kafka not
+		// working.
 	}
 
 	/**
@@ -165,6 +166,6 @@ public class PatientService implements PatientServiceInputPort {
 		}
 
 		patientRepositoryOutputPort.deletePatient(idPatient);
-		clinicProducerOutputPort.deletedClinicEvent(opt.get());
+		// clinicProducerOutputPort.deletedClinicEvent(opt.get()); //Kafka not working.
 	}
 }

@@ -164,17 +164,14 @@ public class PatientsController {
 
 		Patient inputPatient = patientToPatchPatientDto.fromOutputToInput(patient);
 
+		inputPatient.setId(id);
+
 		try {
 			patientServiceInputPort.partialModificationPatient(inputPatient);
+			return ResponseEntity.noContent().build();
 		} catch (ClinicLogicException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-
-		Optional<Patient> updated = patientServiceInputPort.getPatient(inputPatient.getId());
-
-		PatchPatientDto response = patientToPatchPatientDto.fromInputToOutput(updated.get());
-
-		return ResponseEntity.ok(response);
 	}
 
 	/**

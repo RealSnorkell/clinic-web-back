@@ -170,7 +170,8 @@ public class AppointmentService implements AppointmentServiceInputPort {
 				doctorRepositoryOutputPort.modifyDoctor(doctor);
 				patient.getIdPatientAppointments().add(savedAppointment);
 				patientRepositoryOutputPort.modifyPatient(patient);
-				clinicProducerOutputPort.createdClinicEvent(savedAppointment);
+				// clinicProducerOutputPort.createdClinicEvent(savedAppointment); //Kafka not
+				// working.
 			} else {
 				throw new ClinicLogicException(Errors.DOCTOR_NOT_FOUND);
 			}
@@ -198,7 +199,7 @@ public class AppointmentService implements AppointmentServiceInputPort {
 		}
 
 		appointmentRepositoryOutputPort.modifyAppointment(inputAppointment);
-		clinicProducerOutputPort.modifiedClinicEvent(inputAppointment);
+		clinicProducerOutputPort.modifiedClinicEvent(inputAppointment); // Kafka not working.
 	}
 
 	/**
@@ -219,7 +220,7 @@ public class AppointmentService implements AppointmentServiceInputPort {
 
 		clinicPatchMapper.updateAppointment(opt.get(), inputAppointment);
 		appointmentRepositoryOutputPort.modifyAppointment(opt.get());
-		clinicProducerOutputPort.modifiedClinicEvent(opt.get());
+		// clinicProducerOutputPort.modifiedClinicEvent(opt.get()); //Kafka not working.
 	}
 
 	/**
@@ -238,6 +239,6 @@ public class AppointmentService implements AppointmentServiceInputPort {
 		}
 
 		appointmentRepositoryOutputPort.deleteAppointment(idAppointment);
-		clinicProducerOutputPort.deletedClinicEvent(opt.get());
+		// clinicProducerOutputPort.deletedClinicEvent(opt.get()); //Kafka not working.
 	}
 }
