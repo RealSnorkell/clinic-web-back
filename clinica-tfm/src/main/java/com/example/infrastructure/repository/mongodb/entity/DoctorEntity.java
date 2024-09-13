@@ -6,8 +6,6 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,8 +22,7 @@ public class DoctorEntity {
 	@Id
 	String id;
 	String licenseNum;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-	LocalDate mIRDate;
+	LocalDate mirDate;
 	PersonalInformationEntity personalInformationEntity;
 	List<String> specializations;
 	List<String> idDoctorAppointments;

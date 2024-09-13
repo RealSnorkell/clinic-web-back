@@ -16,6 +16,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatchPatientDto {
+	String id;
 	String socialSecurityNumber;
 	PersonalInformationDto personalInformationDto;
 	double height;

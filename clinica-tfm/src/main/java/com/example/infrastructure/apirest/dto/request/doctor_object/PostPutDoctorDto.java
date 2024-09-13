@@ -18,7 +18,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 public class PostPutDoctorDto {
 	String licenseNum;
-	LocalDate mIRDate;
+	LocalDate mirDate;
 	PersonalInformationDto personalInformationDto;
 	List<String> specializations;
 	List<String> idDoctorAppointments;

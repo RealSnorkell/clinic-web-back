@@ -163,6 +163,7 @@ public class DoctorsController {
 		log.debug("Partially modifying a doctor");
 
 		Doctor inputDoc = doctorToPatchDoctorDtoMapper.fromOutputToInput(doctor);
+		inputDoc.setId(id);
 
 		try {
 			doctorServiceInputPort.partialModificationDoctor(inputDoc);

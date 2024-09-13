@@ -2,8 +2,6 @@ package com.example.infrastructure.apirest.dto.request.appointment_object;
 
 import java.time.LocalDateTime;
 
-import com.example.domain.model.Doctor;
-import com.example.domain.model.Patient;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -18,8 +16,8 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostAppointmentDto {
-	Doctor doctor;
-	Patient patient;
+	String doctorId;
+	String patientId;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	LocalDateTime date;
 	String diagnostic;

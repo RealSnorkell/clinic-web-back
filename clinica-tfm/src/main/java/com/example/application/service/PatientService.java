@@ -67,7 +67,7 @@ public class PatientService implements PatientServiceInputPort {
 	public Optional<Patient> getPatientByDocument(@Valid String document) {
 		log.debug("Getting one patient via document.");
 
-		return patientRepositoryOutputPort.getPatient(document);
+		return patientRepositoryOutputPort.getPatientByDocument(document);
 	}
 
 	/**

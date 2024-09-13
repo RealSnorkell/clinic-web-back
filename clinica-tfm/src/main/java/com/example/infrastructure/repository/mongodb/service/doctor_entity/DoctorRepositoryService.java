@@ -109,7 +109,7 @@ public class DoctorRepositoryService implements DoctorRepositoryOutputPort {
 	 * @param inputDoc The doctor with updated information.
 	 */
 	@Override
-	// @CacheEvict(value = "doctors", allEntries = true)
+	@CacheEvict(value = "doctors", allEntries = true)
 	public void modifyDoctor(@Valid Doctor inputDoc) {
 		log.debug("Modifying a doctor");
 

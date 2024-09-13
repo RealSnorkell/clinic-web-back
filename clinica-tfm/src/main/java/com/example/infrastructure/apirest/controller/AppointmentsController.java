@@ -20,13 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.application.port.input.AppointmentServiceInputPort;
+import com.example.application.port.input.DoctorServiceInputPort;
+import com.example.application.port.input.PatientServiceInputPort;
 import com.example.application.util.ClinicLogicException;
 import com.example.domain.model.Appointment;
+import com.example.domain.model.Doctor;
+import com.example.domain.model.Patient;
 import com.example.infrastructure.apirest.dto.request.appointment_object.PatchAppointmentDto;
 import com.example.infrastructure.apirest.dto.request.appointment_object.PostAppointmentDto;
+import com.example.infrastructure.apirest.dto.response.ResponseAppointmentDto;
+import com.example.infrastructure.apirest.dto.response.ResponseDoctorDto;
+import com.example.infrastructure.apirest.dto.response.ResponsePatientDto;
 import com.example.infrastructure.apirest.mapper.appointment_object.AppointmentToPatchAppointmentDtoMapper;
 import com.example.infrastructure.apirest.mapper.appointment_object.AppointmentToPostAppointmentDtoMapper;
 import com.example.infrastructure.apirest.mapper.appointment_object.AppointmentToResponseAppointmentDtoMapper;
+import com.example.infrastructure.apirest.mapper.doctor_object.DoctorToResponseDoctorDtoMapper;
+import com.example.infrastructure.apirest.mapper.patient_object.PatientToResponsePatientDtoMapper;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +58,12 @@ import lombok.extern.slf4j.Slf4j;
 public class AppointmentsController {
 
 	@Autowired
+	private DoctorServiceInputPort doctorService;
+
+	@Autowired
+	private PatientServiceInputPort patientService;
+
+	@Autowired
 	private AppointmentServiceInputPort appointmentServiceInputPort;
 
 	@Autowired
@@ -59,6 +74,12 @@ public class AppointmentsController {
 
 	@Autowired
 	private AppointmentToResponseAppointmentDtoMapper appointmentToResponseAppointmentDtoMapper;
+
+	@Autowired
+	private DoctorToResponseDoctorDtoMapper doctorToResponseDoctorDtoMapper;
+
+	@Autowired
+	private PatientToResponsePatientDtoMapper patientToResponsePatientDtoMapper;
 
 	/**
 	 * Retrieves all appointments in a paginated format.
@@ -77,7 +98,11 @@ public class AppointmentsController {
 		} catch (ClinicLogicException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-		return ResponseEntity.ok(appointmentToResponseAppointmentDtoMapper.fromInputToOutput(appointments));
+
+		Page<ResponseAppointmentDto> response = appointmentToResponseAppointmentDtoMapper
+				.fromInputToOutput(appointments);
+
+		return ResponseEntity.ok(response);
 	}
 
 	/**
@@ -94,9 +119,14 @@ public class AppointmentsController {
 		log.debug("Getting appointments by doctor's document");
 
 		Page<Appointment> doctorAppointments;
+
 		try {
 			doctorAppointments = appointmentServiceInputPort.getAppointmentsByDoctorDocument(document, pageable);
-			return ResponseEntity.ok(doctorAppointments);
+
+			Page<ResponseAppointmentDto> response = appointmentToResponseAppointmentDtoMapper
+					.fromInputToOutput(doctorAppointments);
+
+			return ResponseEntity.ok(response);
 		} catch (ClinicLogicException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
@@ -116,9 +146,14 @@ public class AppointmentsController {
 		log.debug("Getting appointments by patient's document");
 
 		Page<Appointment> patientAppointments;
+
 		try {
 			patientAppointments = appointmentServiceInputPort.getAppointmentsByPatientDocument(document, pageable);
-			return ResponseEntity.ok(patientAppointments);
+
+			Page<ResponseAppointmentDto> response = appointmentToResponseAppointmentDtoMapper
+					.fromInputToOutput(patientAppointments);
+
+			return ResponseEntity.ok(response);
 		} catch (ClinicLogicException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
@@ -138,7 +173,15 @@ public class AppointmentsController {
 		Optional<Appointment> appointment = appointmentServiceInputPort.getAppointment(idAppo);
 
 		if (appointment.isPresent()) {
-			return ResponseEntity.ok(appointmentToResponseAppointmentDtoMapper.fromInputToOutput(appointment.get()));
+			ResponseDoctorDto appDoc = doctorToResponseDoctorDtoMapper.fromInputToOutput(appointment.get().getDoctor());
+			ResponsePatientDto appPat = patientToResponsePatientDtoMapper
+					.fromInputToOutput(appointment.get().getPatient());
+			ResponseAppointmentDto response = appointmentToResponseAppointmentDtoMapper
+					.fromInputToOutput(appointment.get());
+			response.setDoctor(appDoc);
+			response.setPatient(appPat);
+
+			return ResponseEntity.ok(response);
 		} else {
 			return ResponseEntity.noContent().build();
 		}
@@ -154,9 +197,22 @@ public class AppointmentsController {
 	@PostMapping
 	public ResponseEntity postAppointment(@RequestBody @Valid PostAppointmentDto appointmentDto) {
 		log.debug("Creating an appointment");
+
+		Optional<Doctor> doctorToInput = doctorService.getDoctor(appointmentDto.getDoctorId());
+		Optional<Patient> patientToInput = patientService.getPatient(appointmentDto.getPatientId());
+
 		try {
 			Appointment appointment = appointmentToPostAppointmentDtoMapper.fromOutputToInput(appointmentDto);
+			appointment.setDoctor(doctorToInput.get());
+			appointment.setPatient(patientToInput.get());
+
 			String appoId = appointmentServiceInputPort.createAppointment(appointment);
+
+			doctorToInput.get().getIdDoctorAppointments().add(appoId);
+			doctorService.partialModificationDoctor(doctorToInput.get());
+
+			patientToInput.get().getIdPatientAppointments().add(appoId);
+			patientService.partialModificationPatient(patientToInput.get());
 
 			URI locationHeader = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(appoId)
 					.toUri();

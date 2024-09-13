@@ -1,5 +1,6 @@
 package com.example.infrastructure.repository.mongodb.service.appointment_entity;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.application.port.output.AppointmentRepositoryOutputPort;
+import com.example.application.port.output.DoctorRepositoryOutputPort;
+import com.example.application.port.output.PatientRepositoryOutputPort;
 import com.example.domain.model.Appointment;
 import com.example.infrastructure.repository.mongodb.entity.AppointmentEntity;
 import com.example.infrastructure.repository.mongodb.mapper.AppointmentToAppointmentEntityMapper;
@@ -30,6 +34,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class AppointmentsRepositoryService implements AppointmentRepositoryOutputPort {
+
+	@Autowired
+	private PatientRepositoryOutputPort patientRepository;
+
+	@Autowired
+	private DoctorRepositoryOutputPort doctorRepository;
 
 	@Autowired
 	private AppointmentRepository appointmentRepository;
@@ -145,6 +155,7 @@ public class AppointmentsRepositoryService implements AppointmentRepositoryOutpu
 	 * @param idAppointment The ID of the appointment to delete.
 	 */
 	@Override
+	@Transactional
 	@CacheEvict(value = "appointments", allEntries = true)
 	public void deleteAppointment(@Valid String idAppointment) {
 		log.debug("Deleting an appointment");
@@ -157,5 +168,25 @@ public class AppointmentsRepositoryService implements AppointmentRepositoryOutpu
 
 		opt.get().setDeleted(true);
 		appointmentRepository.save(opt.get());
+
+		// Recorremos al paciente para eliminar la cita asociada.
+		List<String> listOfAppPatient = opt.get().getPatient().getIdPatientAppointments();
+		for (String id : listOfAppPatient) {
+			if (id.equals(idAppointment)) {
+				listOfAppPatient.remove(id);
+			}
+		}
+		opt.get().getPatient().setIdPatientAppointments(listOfAppPatient);
+		patientRepository.modifyPatient(opt.get().getPatient());
+
+		// Recorremos al doctor para eliminar la cita asociada.
+		List<String> listOfAppDoc = opt.get().getDoctor().getIdDoctorAppointments();
+		for (String id : listOfAppDoc) {
+			if (id.equals(idAppointment)) {
+				listOfAppDoc.remove(id);
+			}
+		}
+		opt.get().getDoctor().setIdDoctorAppointments(listOfAppDoc);
+		doctorRepository.modifyDoctor(opt.get().getDoctor());
 	}
 }

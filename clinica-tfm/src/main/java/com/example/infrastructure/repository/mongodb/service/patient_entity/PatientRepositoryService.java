@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.application.port.output.PatientRepositoryOutputPort;
 import com.example.domain.model.Patient;
@@ -111,6 +112,7 @@ public class PatientRepositoryService implements PatientRepositoryOutputPort {
 	 * @param inputPatient The patient with updated information.
 	 */
 	@SneakyThrows
+	@Transactional
 	@Override
 	@CacheEvict(value = "patients", allEntries = true)
 	public void modifyPatient(Patient inputPatient) {
