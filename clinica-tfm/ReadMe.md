@@ -4,10 +4,13 @@
 
 Este proyecto se ha creado con la finalidad de proporcionar una aplicación web con la que poder gestionar diversos elementos que pueden englobar la lógica de negocio de algunas empresas, siendo en este caso la gestión de 'Citas', 'Pacientes' y 'Doctores'. La aplicación permite actuar como un gestor de los elementos previamente mencionados, pudiendo así crear, obtener, modificar o eliminar dichos elementos.
 
-Características Principales:
-•	Gestión de doctores: Registro de doctores. El gestor puede crear perfiles proporcionando información a la que tendrá acceso como nombre, edad, documento (DNI, NIE o Pasaporte), número de licencia o especializaciones.
-•	Gestión de Citas: El gestor podra crear, obtener, modificar y eliminar estos elementos. Los pacientes y doctores pueden solicitar citas, por lo que con la información apropiada el gestor tendrá que crearlas.
-•	Gestión de pacientes: Registro de pacientes. El gestor puede crear perfiles proporcionando información a la que tendrá acceso como nombre, edad, documento (DNI, NIE o Pasaporte), número de la seguridad social, altura o peso.
+**Características Principales:**
+
+•	**Gestión de doctores:** Registro de doctores. El gestor puede crear perfiles proporcionando información a la que tendrá acceso como nombre, documento (DNI, NIE o Pasaporte), número de licencia o especializaciones.
+
+•	**Gestión de Citas:** El gestor podra crear, obtener, modificar y eliminar estos elementos. Los pacientes y doctores pueden solicitar citas, por lo que con la información apropiada el gestor tendrá que crearlas.
+
+•	**Gestión de pacientes:** Registro de pacientes. El gestor puede crear perfiles proporcionando información a la que tendrá acceso como nombre, documento (DNI, NIE o Pasaporte), número de la seguridad social, altura o peso.
 
 ## Tecnologías utilizadas.
 
@@ -31,13 +34,13 @@ Patients
 
 Doctors
 
-	Post/coaches: Crear un nuevo doctor.
-	Get/coaches: Obtener todos los doctores.
-	Get/coaches/{id}: Obtener un doctor via ID.
-	Get/coaches/list/{document}: Obtener un doctor via documento.
+	Post/doctors: Crear un nuevo doctor.
+	Get/doctors: Obtener todos los doctores.
+	Get/doctors/{id}: Obtener un doctor via ID.
+	Get/doctors/list/{document}: Obtener un doctor via documento.
 	Put/doctors/{id}: Modificar completamente un doctor via ID.
-	Patch/coaches/{id}: Modificar un doctor via ID.
-	Delete/coaches/{id}: Eliminar un doctor via ID.
+	Patch/doctors/{id}: Modificar un doctor via ID.
+	Delete/doctors/{id}: Eliminar un doctor via ID.
 
 Appointments
 
